@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.relicta.backup</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>__RELICTA_BIN__</string>
+    <string>backup</string>
+    <string>--scheduled</string>
+  </array>
+
+  <!-- Two daily fire slots + RunAtLoad. StartCalendarInterval events missed
+       during SLEEP are coalesced into one run at wake, but events missed
+       while SHUT DOWN are skipped entirely — RunAtLoad plus the script's
+       own "skip if last success < 20h" guard covers that gap (cheap anacron).
+       Net effect: at most ~one real backup per day. -->
+  <key>StartCalendarInterval</key>
+  <array>
+    <dict><key>Hour</key><integer>10</integer><key>Minute</key><integer>30</integer></dict>
+    <dict><key>Hour</key><integer>15</integer><key>Minute</key><integer>30</integer></dict>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+
+  <!-- Never auto-restart a failed multi-GB upload in a loop. -->
+  <key>KeepAlive</key>
+  <false/>
+
+  <key>ProcessType</key>
+  <string>Background</string>
+  <key>LowPriorityIO</key>
+  <true/>
+
+  <key>WorkingDirectory</key>
+  <string>__HOME__</string>
+  <!-- Catches errors that happen before the script's own logging starts. -->
+  <key>StandardOutPath</key>
+  <string>__HOME__/Library/Logs/relicta/launchd.log</string>
+  <key>StandardErrorPath</key>
+  <string>__HOME__/Library/Logs/relicta/launchd.log</string>
+</dict>
+</plist>

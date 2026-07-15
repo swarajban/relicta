@@ -1,0 +1,38 @@
+# relicta configuration — copied to ~/.config/relicta/config by install.sh.
+# This file is sourced as shell; keep owner-only permissions (chmod 600).
+
+# Repository. Full restic URL — the s3: backend covers AWS, R2, B2, MinIO.
+#   AWS S3:        s3:s3.us-west-2.amazonaws.com/my-team-backups/yourname-mbp
+#   Cloudflare R2: s3:https://<ACCOUNT_ID>.r2.cloudflarestorage.com/backups/yourname-mbp
+#   Backblaze B2:  s3:https://s3.us-west-004.backblazeb2.com/my-bucket/yourname-mbp
+RELICTA_REPOSITORY="s3:https://ACCOUNT.r2.cloudflarestorage.com/BUCKET/PREFIX"
+
+# "auto" for R2/B2; the real region for AWS.
+RELICTA_S3_REGION="auto"
+
+# Pinned machine ID used as restic --host. Never derive this dynamically:
+# macOS silently renames hosts ("...MacBook Pro (2)"), which would split
+# snapshot lineages and quietly break retention.
+RELICTA_HOST="yourname-mbp"
+
+# Retention: what `restic forget` keeps.
+RELICTA_KEEP_DAILY=7
+RELICTA_KEEP_WEEKLY=4
+RELICTA_KEEP_MONTHLY=6
+
+# prune + integrity check cadence (stamp-based, survives sleep/shutdown).
+RELICTA_PRUNE_EVERY_DAYS=7
+RELICTA_CHECK_READ_SUBSET="5%"
+
+# Keychain item prefix: <prefix>.restic-password, <prefix>.s3-key-id,
+# <prefix>.s3-secret.
+RELICTA_KEYCHAIN_PREFIX="relicta"
+
+# Skip scheduled backups on battery power.
+RELICTA_SKIP_ON_BATTERY=false
+
+# Dump Brewfile / editor-extension / tool-version manifests before backup.
+RELICTA_MANIFESTS=true
+
+# Extra flags appended to `restic backup`, e.g. "--limit-upload 5120".
+RELICTA_EXTRA_BACKUP_ARGS=""

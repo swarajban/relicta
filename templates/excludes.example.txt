@@ -1,0 +1,32 @@
+# relicta excludes — restic exclude patterns. NOT gitignore syntax:
+#   * no `!` re-includes
+#   * a bare name matches that path component ANYWHERE under the includes
+#   * ~/ at line start is expanded by relicta
+# Deliberately NOT excluded: .env / .env.* files — gitignored secrets and
+# local config are exactly the things you cannot re-clone from GitHub.
+
+# Dependency/build dirs regenerable from lockfiles
+node_modules
+.venv
+venv
+__pycache__
+.pytest_cache
+.mypy_cache
+.ruff_cache
+.next
+.turbo
+.terraform
+.gradle
+dist
+
+# Junk
+.DS_Store
+*.pyc
+
+# Noise inside otherwise-valuable trees
+~/.config/gcloud/logs
+~/.claude/shell-snapshots
+~/.claude/statsig
+~/.cursor/extensions
+~/.cursor/statsig-cache.json
+~/.cursor/ai-tracking

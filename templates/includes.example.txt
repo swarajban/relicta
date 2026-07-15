@@ -1,0 +1,34 @@
+# relicta includes — one path per line, ~/ is expanded, # comments allowed.
+# Curate this file: it IS your backup. Everything not listed here is not
+# backed up. Sizes matter less than you think (object storage is ~$6/TB/mo);
+# what matters is excluding the regenerable world (see excludes.txt) and
+# never missing the irreplaceable one.
+
+# --- shell & dev environment ---
+~/.config
+~/.local/share/fish
+~/.ssh
+~/.aws
+~/.gnupg
+~/.gitconfig
+~/.gitignore_global
+~/.vimrc
+~/.npmrc
+~/.tool-versions
+~/.docker
+
+# --- AI / agent tools (trim to what you use) ---
+~/.claude
+~/.claude.json
+~/.codex
+~/.cursor
+
+# --- app settings ---
+~/Library/Preferences
+
+# --- code & documents ---
+# Repos even if pushed to GitHub: local .env files, uncommitted work, and
+# local-only branches are NOT on GitHub. excludes.txt strips node_modules,
+# virtualenvs, and build artifacts — but never .env files.
+~/Documents
+~/Desktop

@@ -1,0 +1,27 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install linters
+        run: brew install shellcheck shfmt
+      - name: shellcheck
+        run: shellcheck -s bash bin/relicta install.sh uninstall.sh tests/smoke.sh
+      - name: shfmt
+        run: shfmt -d -i 2 -ci bin/relicta install.sh uninstall.sh tests/smoke.sh
+
+  smoke:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install restic
+        run: brew install restic
+      - name: End-to-end smoke test (local restic repo)
+        run: ./tests/smoke.sh
