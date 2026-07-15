@@ -374,7 +374,7 @@ cmd_doctor() {
   # shellcheck disable=SC2012  # log names are our own timestamped pattern
   latest_log="$(ls -t "$LOG_DIR"/backup-*.log 2>/dev/null | head -1 || true)"
   if [ -n "$latest_log" ]; then
-    denied="$(grep -ci 'permission denied' "$latest_log" 2>/dev/null || true)"
+    denied="$(grep -ciE 'permission denied|operation not permitted' "$latest_log" 2>/dev/null || true)"
     if [ -n "$denied" ] && [ "$denied" -gt 0 ]; then
       doctor_report fail "latest run had $denied permission-denied reads — re-grant Full Disk Access to restic (see docs/FULL-DISK-ACCESS.md), required again after every 'brew upgrade restic'"
     else
